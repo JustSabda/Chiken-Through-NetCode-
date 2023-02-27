@@ -5,6 +5,9 @@ using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 
 public class NetworkButtons : MonoBehaviour {
+
+    public GameObject Panel;
+
     private void OnGUI() {
         GUILayout.BeginArea(new Rect(10, 10, 300, 300));
         if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer) {
@@ -13,6 +16,10 @@ public class NetworkButtons : MonoBehaviour {
             if (GUILayout.Button("Client")) NetworkManager.Singleton.StartClient();
         }
 
+        else
+        {
+            Panel.SetActive(false);
+        }
         GUILayout.EndArea();
     }
 
