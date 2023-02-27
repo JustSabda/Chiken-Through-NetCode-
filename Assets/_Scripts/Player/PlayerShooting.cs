@@ -19,9 +19,11 @@ public class PlayerShooting : NetworkBehaviour
     [SerializeField] private float forceBack;
     [SerializeField] private bool shootBack;
 
+    public bool tired;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        tired = false;
     }
 
     private void Update()
@@ -37,6 +39,11 @@ public class PlayerShooting : NetworkBehaviour
             RequestFireServerRpc(dir);
 
 
+            if (GetComponent<PlayerController>().hadEgg == true)
+            {
+                var Egg = GetComponentInChildren<PlayerEgg>();
+                Egg.powerEgg -= 1;
+            }
             ExecuteShoot(dir);
             StartCoroutine(ToggleLagIndicator());
         }
@@ -80,8 +87,11 @@ public class PlayerShooting : NetworkBehaviour
     /// <returns></returns>
     private IEnumerator ToggleLagIndicator()
     {
-        _fired = true;
-        yield return new WaitForSeconds(0.2f);
-        _fired = false;
+        if (tired)
+        {
+            _fired = true;
+            yield return new WaitForSeconds(0.2f);
+            _fired = false;
+        }
     }
 }

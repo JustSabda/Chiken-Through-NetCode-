@@ -1186,7 +1186,7 @@ Transform:
   m_GameObject: {fileID: 733745498863221454}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 5534217251392117452}
   - {fileID: 242849439082358860}
@@ -1226,7 +1226,7 @@ MonoBehaviour:
   eggPlace: {x: 0, y: 0, z: 0}
   meeple: {fileID: 0}
   hadEgg: 0
-  dashPower: 0
+  dashPower: 30
   _acceleration: 80
   _maxVelocity: 10
   _rotationSpeed: 450
@@ -1261,8 +1261,9 @@ MonoBehaviour:
   _projectileSpeed: 700
   _cooldown: 0.5
   _spawner: {fileID: 5656476920148302625}
-  forceBack: 10
-  shootBack: 0
+  forceBack: 20
+  shootBack: 1
+  tired: 0
 --- !u!114 &1842217466505251772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3614,6 +3615,7 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   core: {fileID: 755892107100773974}
   eggPlacement: {x: 0, y: 0, z: -0.967}
+  powerEgg: 0
 --- !u!54 &4747380423170972793
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4506,7 +4508,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2823618796211629667}
   m_LocalRotation: {x: 0.70084083, y: 0.00000030600978, z: -0.0000003006573, w: 0.7133177}
-  m_LocalPosition: {x: 0, y: 69, z: -1.2}
+  m_LocalPosition: {x: 0, y: 70, z: -1.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1647516737397950724}

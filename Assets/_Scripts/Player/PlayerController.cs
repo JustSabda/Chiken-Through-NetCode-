@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
             _rb.AddForce(transform.forward * dashPower, ForceMode.Impulse);
         }
@@ -102,6 +102,12 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Dead Wall"))
         {
             //destroy object
+        }
+
+        if(other.gameObject.CompareTag("Charge Zone") && hadEgg)
+        {
+            var egg = GetComponentInChildren<PlayerEgg>();
+            egg.powerEgg += 1;
         }
     }
 }

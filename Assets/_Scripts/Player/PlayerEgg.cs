@@ -25,6 +25,8 @@ public class PlayerEgg : NetworkBehaviour
 
     public Vector3 eggPlacement;
 
+    public int powerEgg;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();

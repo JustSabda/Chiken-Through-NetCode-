@@ -692,6 +692,7 @@ PlayerSettings:
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
   cloudServicesEnabled:
+    Analytics: 0
     Build: 0
     Collab: 0
     Game Performance: 0
@@ -713,11 +714,11 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 0
-  cloudProjectId: 988d2ad1-e0af-4d6e-81ff-64cc5089d17e
+  cloudProjectId: 96516778-f992-404f-b268-d79e4b61fe7d
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: Netcode
-  organizationId: pendulum-7b422b9c-1f6d-4410-8c3a-e020abbfb916
+  organizationId: dataerror13_unity
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   virtualTexturingSupportEnabled: 0
