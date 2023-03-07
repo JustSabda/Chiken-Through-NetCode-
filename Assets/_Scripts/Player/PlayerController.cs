@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -17,24 +19,48 @@ public class PlayerController : MonoBehaviour
     public bool hadEgg;
 
     [Header("Dash")]
-    [SerializeField] private float dashPower;
+    [SerializeField] private float dashPower = 24f;
+
+
+    [SerializeField]private Animator anim;
+
+    [Header("Charger")]
+    protected float Timer;
+    public float delayCharging;
+    [SerializeField] bool charging;
+
+
+    [Header("Movement")]
+    [SerializeField] private float _curAcceleration = 80;
+    [SerializeField] private float _normalAcceleration = 80;
+    [SerializeField] private float _tiredAcceleration = 80;
+    [SerializeField] private float _maxVelocity = 10;
+    [SerializeField] public bool tiredLife;
+    private Vector3 _input;
+    private Rigidbody _rb;
 
     private void Awake()
     {
+        Instance = this;
         _rb = GetComponent<Rigidbody>();
-        _cam = Camera.main;
+       
         corner = GetComponent<BoxCollider>();
+        anim = GetComponentInChildren<Animator>();
+
+        charging = false;
+        tiredLife = false;
     }
 
     private void Update()
     {
         _input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 
-        meeple = transform.Find("Egg");
+        meeple = transform.Find("GO_Char_Telur_Basic_001");
 
         if (meeple == null)
         {
             hadEgg = false;
+            tiredLife = true;
             //corner.enabled = false;
         }
         else
@@ -44,6 +70,27 @@ public class PlayerController : MonoBehaviour
 
         }
 
+        if (charging)
+        {
+            Timer += Time.deltaTime;
+
+            if (Timer >= delayCharging)
+            {
+                Timer = 0f;
+                var egg = GetComponentInChildren<PlayerEgg>();
+
+                egg.curPowerEgg++;
+            }
+        }
+
+        if (!tiredLife)
+        {
+            _curAcceleration = _normalAcceleration;
+        }
+        else
+        {
+            _curAcceleration = _tiredAcceleration;
+        }
 
 
     }
@@ -54,31 +101,46 @@ public class PlayerController : MonoBehaviour
         HandleRotation();
     }
 
-    #region Movement
-
-    [SerializeField] private float _acceleration = 80;
-    [SerializeField] private float _maxVelocity = 10;
-    private Vector3 _input;
-    private Rigidbody _rb;
 
     private void HandleMovement()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+
+        _rb.velocity += _input.normalized * (_curAcceleration * Time.deltaTime);
+        _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _maxVelocity);
+
+        if(_input.normalized != new Vector3(0,0,0))
         {
-            _rb.AddForce(transform.forward * dashPower, ForceMode.Impulse);
+            anim.SetBool("Movement", true);
+        }
+        else
+        {
+            anim.SetBool("Movement", false);
         }
 
-        _rb.velocity += _input.normalized * (_acceleration * Time.deltaTime);
-        _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _maxVelocity);
+        if (Input.GetKey(KeyCode.LeftShift) && !tiredLife)
+        {
+            _rb.AddForce(transform.forward * dashPower, ForceMode.Impulse);
+
+            //animation dash
+            Timer += Time.deltaTime;
+
+            if (Timer >= delayCharging)
+            {
+                Timer = 0f;
+                var egg = GetComponentInChildren<PlayerEgg>();
+
+                egg.curPowerEgg--;
+            }
+        }
     }
 
-    #endregion
+    
 
     #region Rotation
 
     [SerializeField] private float _rotationSpeed = 450;
     private Plane _groundPlane = new Plane(Vector3.up, Vector3.zero);
-    private Camera _cam;
+    [SerializeField]private Camera _cam;
 
     private void HandleRotation()
     {
@@ -99,15 +161,22 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Dead Wall"))
+        if (other.gameObject.CompareTag("Dead Wall") && hadEgg)
         {
-            //destroy object
+            GetComponentInParent<ParentPlayer>().Destroyed = true;
         }
 
         if(other.gameObject.CompareTag("Charge Zone") && hadEgg)
         {
-            var egg = GetComponentInChildren<PlayerEgg>();
-            egg.powerEgg += 1;
+            charging = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Charge Zone") && hadEgg)
+        {
+            charging = false;
         }
     }
 }

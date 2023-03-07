@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Egg
+  - Dead Wall
+  - Charge Zone
   layers:
   - Default
   - TransparentFX
