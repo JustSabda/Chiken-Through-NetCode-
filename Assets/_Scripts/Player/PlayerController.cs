@@ -91,14 +91,15 @@ public class PlayerController : MonoBehaviour
         {
             _curAcceleration = _tiredAcceleration;
         }
-
+        HandleMovement();
+        HandleRotation();
 
     }
 
     private void FixedUpdate()
     {
-        HandleMovement();
-        HandleRotation();
+        //HandleMovement();
+        //HandleRotation();
     }
 
 
@@ -151,6 +152,7 @@ public class PlayerController : MonoBehaviour
             var hitPoint = ray.GetPoint(enter);
 
             var dir = hitPoint - transform.position;
+            dir.y = 0;
             var rot = Quaternion.LookRotation(dir);
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, _rotationSpeed * Time.deltaTime);
@@ -177,6 +179,15 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Charge Zone") && hadEgg)
         {
             charging = false;
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        //Collider myCollider = collision.GetContact(0).thisCollider;
+        if (collision.contacts[0].otherCollider.transform.gameObject.tag == "Dead Wall")
+        {
+            //GetComponentInParent<ParentPlayer>().Destroyed = true;
         }
     }
 }

@@ -113,6 +113,8 @@ public class PlayerEgg : NetworkBehaviour
     {
 
         if (!IsOwner) return;
+
+
         if (collision.gameObject.tag == "Player" ) //_state == state.PICKUP)
         {
             this.gameObject.transform.SetParent(collision.transform, false);
@@ -128,6 +130,7 @@ public class PlayerEgg : NetworkBehaviour
             GetComponentInParent<ParentPlayer>().Destroyed = true;
         }
 
+        
     }
 
 
