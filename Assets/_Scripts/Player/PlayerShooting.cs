@@ -62,7 +62,7 @@ public class PlayerShooting : NetworkBehaviour
             var dir = transform.forward;
 
 
-            RequestFireServerRpc(dir);
+            
 
 
             if (GetComponent<PlayerController>().hadEgg == true)
@@ -71,7 +71,7 @@ public class PlayerShooting : NetworkBehaviour
             }
 
 
-
+            RequestFireServerRpc(dir);
             ExecuteShoot(dir);
             StartCoroutine(ToggleLagIndicator());
         }

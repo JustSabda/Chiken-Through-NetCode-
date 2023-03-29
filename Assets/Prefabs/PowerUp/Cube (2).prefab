@@ -108,10 +108,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e462dc6b06a8884bb10fb88035ef959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LaunchDelay: 1
-  LaunchForce: 200
-  PlayerLaunchForceMultiplier: 2
+  LaunchDelay: 0.1
+  LaunchForce: 20
+  PlayerLaunchForceMultiplier: 1
   LaunchMode: 2
   ImpactVelocityScale: 0.05
-  MaxImpactVelocityScale: 5.58
-  MaxDistortionWeight: 6.9
+  MaxImpactVelocityScale: 2
+  MaxDistortionWeight: 0.25

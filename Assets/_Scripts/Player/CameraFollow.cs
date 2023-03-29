@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraFollow : MonoBehaviour
-{
-    public Transform target;
-    public Vector3 offset;
 
-    void Update()
+namespace Daidalos
+{
+    public class CameraFollow : MonoBehaviour
     {
-        transform.position = target.position + offset;
+        public Transform target;
+        public Vector3 offset;
+
+        void Update()
+        {
+            transform.position = target.position + offset;
+        }
     }
 }

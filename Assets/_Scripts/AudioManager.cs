@@ -34,7 +34,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        PlayMusic("Game");
+        PlayMusic("Music 1");
     }
 
     public void PlayMusic(string name)

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using TMPro;
+using Unity.Services.Lobbies.Models;
+using Unity.VisualScripting;
 
 public class PlayerEgg : NetworkBehaviour
 {
@@ -24,6 +26,7 @@ public class PlayerEgg : NetworkBehaviour
     public Color color;
 
     public Transform core;
+    //public GameObject fixCore;
 
     public Vector3 eggPlacement;
 
@@ -31,12 +34,20 @@ public class PlayerEgg : NetworkBehaviour
     public float curPowerEgg;
     public float maxpowerEgg;
 
+
+    private bool x;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         capsule = GetComponent<MeshCollider>();
         rb.isKinematic = true;
         //powerText.text = curPowerEgg.ToString();
+
+    }
+
+    private void Awake()
+    {
+
     }
 
 
@@ -70,6 +81,11 @@ public class PlayerEgg : NetworkBehaviour
             */
         }
 
+        if (Input.GetKey(KeyCode.E))
+        {
+            StartCoroutine(Pickup());
+        }
+
         if (curPowerEgg >= maxpowerEgg)
         {
             curPowerEgg = maxpowerEgg;
@@ -90,6 +106,13 @@ public class PlayerEgg : NetworkBehaviour
         powerText.text = curPowerEgg + "";
     }
 
+    IEnumerator Pickup()
+    {
+        x = true;
+        yield return new WaitForSeconds(0.5f);
+        x = false;
+    }
+
     public void Damaged()
     {
         //if (_state != state.GONE || _state != state.PICKUP)
@@ -97,7 +120,7 @@ public class PlayerEgg : NetworkBehaviour
 
         backParent(core);
         rb.isKinematic = false;
-        rb.AddForce(transform.forward * -5f, ForceMode.Impulse);
+        rb.AddForce(transform.forward * -10f, ForceMode.Impulse);
         _state = state.GONE;
         //done = true;
         capsule.isTrigger = false;
@@ -112,27 +135,52 @@ public class PlayerEgg : NetworkBehaviour
     private void OnCollisionEnter(Collision collision)
     {
 
-        if (!IsOwner) return;
-
-
-        if (collision.gameObject.tag == "Player" ) //_state == state.PICKUP)
+        if (IsOwner)
         {
-            this.gameObject.transform.SetParent(collision.transform, false);
-            transform.localPosition = eggPlacement;
-            transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+            
 
-            rb.isKinematic = true;
-            //countdownText.text = currentTime.ToString("3");
+            if (collision.gameObject.tag == "Dead Wall")
+            {
+                GetComponentInParent<ParentPlayer>().Destroyed = true;
+            }
+
         }
+    }
 
-        if (collision.gameObject.tag == "Dead Wall")
+    private void OnCollisionStay(Collision collision)
+    {
+        if (IsOwner)
         {
-            GetComponentInParent<ParentPlayer>().Destroyed = true;
-        }
+            if (collision.gameObject.tag == "Player" && x == true) //_state == state.PICKUP)
+            {
+                this.gameObject.transform.SetParent(collision.transform, false);
 
-        
+                EggTimeServerRpc();
+                EggTime();
+
+                rb.isKinematic = true;
+                //countdownText.text = currentTime.ToString("3");
+            }
+        }
+    }
+
+    [ServerRpc]
+    private void EggTimeServerRpc()
+    {
+        EggTimeClientRpc();
+    }
+
+    [ClientRpc]
+    private void EggTimeClientRpc()
+    {
+        if (!IsOwner) EggTime();
     }
 
 
+    private void EggTime()
+    {
+        transform.localPosition = eggPlacement;
+        transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+    }
 
 }

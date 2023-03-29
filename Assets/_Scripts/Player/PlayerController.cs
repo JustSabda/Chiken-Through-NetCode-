@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Just a crappy character controller for the video
 /// </summary>
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour 
 {
     public static PlayerController Instance { get; private set; }
 
@@ -47,8 +47,20 @@ public class PlayerController : MonoBehaviour
         corner = GetComponent<BoxCollider>();
         anim = GetComponentInChildren<Animator>();
 
+        
+
         charging = false;
         tiredLife = false;
+    }
+
+    private void Start()
+    {
+        if(IsOwner && IsClient)
+        {
+            CameraFollow.Instance.player = this.transform;
+        }
+
+
     }
 
     private void Update()
@@ -91,15 +103,15 @@ public class PlayerController : MonoBehaviour
         {
             _curAcceleration = _tiredAcceleration;
         }
-        HandleMovement();
-        HandleRotation();
+        //HandleMovement();
+        //HandleRotation();
 
     }
 
     private void FixedUpdate()
     {
-        //HandleMovement();
-        //HandleRotation();
+        HandleMovement();
+        HandleRotation();
     }
 
 
@@ -111,11 +123,11 @@ public class PlayerController : MonoBehaviour
 
         if(_input.normalized != new Vector3(0,0,0))
         {
-            anim.SetBool("Movement", true);
+            anim.SetBool("Jalan", true);
         }
         else
         {
-            anim.SetBool("Movement", false);
+            anim.SetBool("Jalan", false);
         }
 
         if (Input.GetKey(KeyCode.LeftShift) && !tiredLife)
@@ -145,6 +157,8 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRotation()
     {
+        _cam = Camera.main;
+
         var ray = _cam.ScreenPointToRay(Input.mousePosition);
 
         if (_groundPlane.Raycast(ray, out var enter))
@@ -182,12 +196,39 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Wall") && hadEgg)
+        {
+            _rb.AddForce(transform.forward * dashPower, ForceMode.Impulse);
+            //_rb.AddExplosionForce(50, transform.position, 10f, 3.0F);
+        }
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         //Collider myCollider = collision.GetContact(0).thisCollider;
-        if (collision.contacts[0].otherCollider.transform.gameObject.tag == "Dead Wall")
+        /*
+        if (myCollider.gameObject.tag == "Dead Wall")
+        {
+            GetComponentInParent<ParentPlayer>().Destroyed = true;
+        }
+        
+        /*
+        if(collision.gameObject.transform.GetChild(0).tag == "Dead Wall")
         {
             //GetComponentInParent<ParentPlayer>().Destroyed = true;
+            Debug.Log("WOW");
         }
+        */
+
+
+        //Debug.Log("Collider: " + collision.contacts[0].thisCollider.name);
+
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+   
     }
 }
