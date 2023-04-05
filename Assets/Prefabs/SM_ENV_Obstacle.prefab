@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1704784188839300059}
   - component: {fileID: 6031233221280561862}
   - component: {fileID: 1695322688944672240}
+  - component: {fileID: 1910186071006439774}
   m_Layer: 0
   m_Name: SM_ENV_Obstacle2
   m_TagString: Untagged
@@ -81,6 +82,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1910186071006439774
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118172617783337426}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0029606821, y: 0.0113254, z: 0.007764573}
+  m_Center: {x: -0.0014803398, y: 0.0056627, z: 0.0038822847}
 --- !u!1 &5985599107596460032
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,6 +106,7 @@ GameObject:
   - component: {fileID: 2860215077892828559}
   - component: {fileID: 8938680118156961978}
   - component: {fileID: 4101057326404646977}
+  - component: {fileID: 5013602567285354696}
   m_Layer: 0
   m_Name: SM_ENV_Obstacle2.001
   m_TagString: Untagged
@@ -162,6 +177,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5013602567285354696
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5985599107596460032}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0029606821, y: 0.011325397, z: 0.0077645704}
+  m_Center: {x: -0.0014803411, y: 0.005662699, z: 0.0038822852}
 --- !u!1 &6200420456229090580
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,6 +201,7 @@ GameObject:
   - component: {fileID: 5597136599613840582}
   - component: {fileID: 3038503834070811561}
   - component: {fileID: 7939013259946104010}
+  - component: {fileID: 5498141894774170658}
   m_Layer: 0
   m_Name: SM_ENV_ObstacleCorner1
   m_TagString: Untagged
@@ -243,6 +272,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5498141894774170658
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6200420456229090580}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0031232166, y: 0.0030992068, z: 0.010810749}
+  m_Center: {x: -0.0015512364, y: 0.0015459403, z: 0.005405375}
 --- !u!1 &9186873753574514783
 GameObject:
   m_ObjectHideFlags: 0

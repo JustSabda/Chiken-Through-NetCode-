@@ -132,6 +132,7 @@ public class PlayerController : NetworkBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift) && !tiredLife)
         {
+            anim.SetBool("Dash", true);
             _rb.AddForce(transform.forward * dashPower, ForceMode.Impulse);
 
             //animation dash
@@ -144,6 +145,11 @@ public class PlayerController : NetworkBehaviour
 
                 egg.curPowerEgg--;
             }
+
+        }
+        else
+        {
+            anim.SetBool("Dash", false);
         }
     }
 
